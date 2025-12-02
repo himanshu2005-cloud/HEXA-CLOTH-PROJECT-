@@ -1,0 +1,22 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+<div style="margin-bottom:16px;">
+  <div style="display:flex; gap:12px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:220px; padding:12px; border:1px solid #ddd; border-radius:8px; background:#fff;">
+      <div style="font-weight:600; color:#444;">Total Sales</div>
+      <div style="font-size:20px; font-weight:700; color:#198754;">₹{{ total_sales }}</div>
+    </div>
+    <div style="flex:1; min-width:220px; padding:12px; border:1px solid #ddd; border-radius:8px; background:#fff;">
+      <div style="font-weight:600; color:#444;">Total Orders</div>
+      <div style="font-size:20px; font-weight:700;color:#198754;">{{ orders_count }}</div>
+    </div>
+    <div style="flex:1; min-width:220px; padding:12px; border:1px solid #a21111; border-radius:8px; background:#fff;">
+      <div style="font-weight:600; color:#000000;">Total Products</div>
+      <div style="font-size:20px; font-weight:700;color:#198754;">{{ products_count }}</div>
+    </div>
+  </div>
+</div>
+{{ block.super }}
+{% endblock %}
+

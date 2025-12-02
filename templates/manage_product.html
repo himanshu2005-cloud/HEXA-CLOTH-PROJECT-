@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+
+
+    <title>Hexashop Ecommerce HTML CSS Template</title>
+
+    {% load static %}
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-hexashop.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/owl-carousel.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/lightbox.css' %}">
+    <!--
+
+TemplateMo 571 Hexashop
+
+https://templatemo.com/tm-571-hexashop
+
+-->
+</head>
+<style>
+    .st{ box-shadow:0 8px 32px rgba(31,38,135,.12); border-radius:16px; }
+    .admin-header{ display:flex; align-items:center; justify-content:space-between; }
+    .breadcrumbs a{ color:#777; text-decoration:none; }
+    .breadcrumbs span{ margin:0 6px; color:#bbb; }
+    .summary-card{ background:#f8f9fa; border-radius:12px; }
+    .summary-title{ font-weight:600; }
+    .summary-price{ font-size:20px; font-weight:700; }
+    .summary-price del{ color:#a1a1a1; margin-left:8px; }
+    .badge-cat{ background:#e9ecef; color:#333; }
+</style>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="/admin/" class="logo">
+                            <img src="{% static 'assets/images/logo.png' %}">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="/admin/">Django Admin</a></li>
+                            <li><a class="text-danger" href="/logout">Logout</a></li>
+                            <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+    <div class="main-banner bg-light" id="top">
+        <div class="container-fluid">
+            <center>
+                <div class="contact-us ">
+                    <div class="st container bg-white p-5" style="max-width: 900px;">
+                        <div class="admin-header mb-3">
+                            <div class="breadcrumbs">
+                                <a href="/dash">Dashboard</a>
+                                <span>/</span>
+                                <a href="/view">Products</a>
+                                <span>/</span>
+                                <strong>Manage</strong>
+                            </div>
+                            <a href="/view" class="btn btn-outline-secondary">Back to list</a>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-7">
+                                <div class="section-heading">
+                                    <h2>Manage product</h2>
+                                    <br>
+                                    <span>Update product details and image.</span>
+                                </div>
+                                <form action="/update/{{save.id}}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3">
+                                            <label class="mb-1">Product name</label>
+                                            <input name="product_name" value="{{save.product_name}}" type="text" class="form-control" required="">
+                                        </div>
+                                        <div class="col-lg-12 mb-3">
+                                            <label class="mb-1">Description</label>
+                                            <textarea name="product_description" class="form-control" rows="3" required="">{{save.product_description}}</textarea>
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <label class="mb-1">Price</label>
+                                            <input name="product_price" value="{{save.product_price}}" type="number" class="form-control" required="">
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <label class="mb-1">Offer price</label>
+                                            <input name="product_offerprice" value="{{save.product_offerprice}}" type="number" class="form-control" required="">
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <label class="mb-1">Category</label>
+                                            <select name="category" class="form-select" required="">
+                                                <option value="" disabled>Select</option>
+                                                <option value="Men" {% if save.category == 'Men' %}selected{% endif %}>Men</option>
+                                                <option value="Women" {% if save.category == 'Women' %}selected{% endif %}>Women</option>
+                                                <option value="Kids" {% if save.category == 'Kids' %}selected{% endif %}>Kids</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            <label class="mb-1">Replace image</label>
+                                            <input id="imageInput" name="image" type="file" class="form-control" accept="image/*">
+                                        </div>
+                                        <div class="col-lg-12 mt-3">
+                                            <button type="submit" id="form-submit" class="main-dark-button w-100">
+                                                Update&nbsp;<i class="fa fa-paper-plane"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="summary-card p-3 text-center">
+                                    <div class="summary-title">{{save.product_name}}</div>
+                                    <div class="mt-1"><span class="badge badge-cat">{{save.category}}</span></div>
+                                    <div class="summary-price mt-2">&#8377;{{save.product_offerprice}} <del>&#8377;{{save.product_price}}</del></div>
+                                    <div class="mt-3">
+                                        <img id="previewImg" src="{{save.image.url}}" class="img-fluid rounded" alt="Current image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area Start ***** -->
+
+    <!-- ***** Main Banner Area End ***** -->
+
+
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="first-item">
+                        <div class="logo">
+                            <img src="{% static 'assets/images/white-logo.png' %}" alt="hexashop ecommerce templatemo">
+                        </div>
+                        <ul>
+                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
+                            <li><a href="#">hexashop@company.com</a></li>
+                            <li><a href="#">010-020-0340</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Shopping &amp; Categories</h4>
+                    <ul>
+                        <li><a href="#">Men's Shopping</a></li>
+                        <li><a href="#">Women's Shopping</a></li>
+                        <li><a href="#">Kid's Shopping</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Homepage</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Help &amp; Information</h4>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Tracking ID</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved.
+
+                            <br>Design: <a href="https://templatemo.com" target="_parent"
+                                title="free css templates">TemplateMo</a>
+                        </p>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- jQuery -->
+    <script src="{% static 'assets/js/jquery-2.1.0.min.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static 'assets/js/popper.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugins -->
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/accordions.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker.js' %}"></script>
+    <script src="{% static 'assets/js/scrollreveal.min.js' %}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/imgfix.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.js' %}"></script>
+
+    <script>
+    (function(){
+        var input = document.getElementById('imageInput');
+        if(input){
+            input.addEventListener('change', function(e){
+                var file = e.target.files && e.target.files[0];
+                if(!file) return;
+                var reader = new FileReader();
+                reader.onload = function(evt){
+                    var img = document.getElementById('previewImg');
+                    if(img){ img.src = evt.target.result; }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    })();
+    </script>
+
+    <!-- Global Init -->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+    <script>
+
+        $(function () {
+            var selectedClass = "";
+            $("p").click(function () {
+                selectedClass = $(this).attr("data-rel");
+                $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("." + selectedClass).fadeOut();
+                setTimeout(function () {
+                    $("." + selectedClass).fadeIn();
+                    $("#portfolio").fadeTo(50, 1);
+                }, 500);
+
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

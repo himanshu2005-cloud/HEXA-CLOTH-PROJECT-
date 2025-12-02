@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -11,20 +12,23 @@ class Addproduct(models.Model):
     image = models.ImageField(upload_to="image")
 
     class Meta:
-        db_table:"Addproduct"
+        db_table = "Addproduct"
+
+    def get_absolute_url(self):
+        return reverse('order', args=[self.id])
 
 class Addcart(models.Model):
     producti_id = models.CharField(max_length=100)
     producti_name = models.CharField(max_length=100)
     producti_price = models.CharField(max_length=100)
     producti_category = models.CharField(max_length=100)
-    image = models.ImageField(upload_to=100)
+    image = models.ImageField(upload_to="image")
     producti_qty = models.CharField(max_length=100)
     totalprice = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
 
     class Meta:
-        db_table:"Addcart"
+        db_table = "Addcart"
 
 class Payment(models.Model):
     firstname = models.CharField(max_length=100)
@@ -38,7 +42,7 @@ class Payment(models.Model):
     amount = models.CharField(max_length=100)
 
     class Meta:
-        db_table:"Payment"
+        db_table = "Payment"
 
 class Wishlist(models.Model):
     product_id = models.CharField(max_length=100)
@@ -52,4 +56,4 @@ class Wishlist(models.Model):
     username =  models.CharField(max_length=100)
 
     class Meta:
-        db_tatble:"Wishlist"
+        db_table = "Wishlist"

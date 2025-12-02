@@ -13,15 +13,15 @@ def index(request):
     if request.user.is_authenticated:
         username = request.user.username
         data = Addcart.objects.filter(username=username)
-        men = Addproduct.objects.filter(category="Men")
-        women = Addproduct.objects.filter(category="Women")
-        kids = Addproduct.objects.filter(category="Kids")
+        men = Addproduct.objects.filter(category__iexact="Men")
+        women = Addproduct.objects.filter(category__iexact="Women")
+        kids = Addproduct.objects.filter(category__iexact="Kids")
         context = {"women": women, "men": men, "Kids": kids, "number": len(data)}
         return render(request, "index.html", context)
     else:
-        men = Addproduct.objects.filter(category="Men")
-        women = Addproduct.objects.filter(category="Women")
-        kids = Addproduct.objects.filter(category="Kids")
+        men = Addproduct.objects.filter(category__iexact="Men")
+        women = Addproduct.objects.filter(category__iexact="Women")
+        kids = Addproduct.objects.filter(category__iexact="Kids")
         context = {"women": women, "men": men, "Kids": kids}
         return render(request, "index.html", context)
 
@@ -77,15 +77,7 @@ def logout(request):
     return redirect('/')
 
 def adm(request):
-    arr = ["Admin2005"]
-    if request.method == "POST":
-        username = request.POST["username"]
-        if username in arr:
-            request.session['is_admin'] = True
-            return redirect("/dash")
-        else:
-            return render(request, "admin.html", {"msg": "Password not matched"})
-    return render(request, "admin.html")
+    return redirect('/admin/')
 
 
 def abt(request):
@@ -105,81 +97,26 @@ def order(request, id):
 
 
 def dash(request):
-    if not request.session.get('is_admin'):
-        return redirect('/adm')
-    products = Addproduct.objects.all()
-    orders = Payment.objects.all()
-    total_amount = sum(int(order.amount) for order in orders)
-    return render(request, "dashboard.html", {
-        "totalamount": total_amount,
-        "totalproduct": len(products),
-        "totalorder": len(orders)
-    })
+    return redirect('/admin/')
 
 
 def add(request):
-    if not request.session.get('is_admin'):
-        return redirect('/adm')
-    if request.method == "POST":
-        product = Addproduct(
-            product_name=request.POST["product_name"],
-            product_description=request.POST["product_description"],
-            product_price=request.POST["product_price"],
-            product_offerprice=request.POST["product_offerprice"],
-            category=request.POST["category"],
-            image=request.FILES["image"]
-        )
-        product.save()
-        return redirect("/view")
-    return render(request, "add_product.html")
+    return redirect('/admin/')
 
 
 def view(request):
-    if not request.session.get('is_admin'):
-        return redirect('/adm')
-    data = Addproduct.objects.all()
-    return render(request, 'view_product.html', {"data": data})
+    return redirect('/admin/')
 
 
 def delete_product(request, id):
-    if not request.session.get('is_admin'):
-        return redirect('/adm')
-    Addproduct.objects.get(id=id).delete()
-    return redirect("/view")
+    return redirect('/admin/')
 
 
 def edit(request, id):
-    if not request.session.get('is_admin'):
-        return redirect('/adm')
-    ch = Addproduct.objects.get(id=id)
-    if request.method == "POST":
-        ch.product_name = request.POST['product_name']
-        ch.product_description = request.POST['product_description']
-        ch.product_price = request.POST['product_price']
-        ch.product_offerprice = request.POST['product_offerprice']
-        if 'category' in request.POST:
-            ch.category = request.POST['category']
-        if 'image' in request.FILES:
-            ch.image = request.FILES['image']
-        ch.save()
-        return redirect("/view")
-    return render(request, "manage_product.html", {"save": ch})
+    return redirect('/admin/')
 
 def update(request, id):
-    if not request.session.get('is_admin'):
-        return redirect('/adm')
-    item = Addproduct.objects.get(id=id)
-    if request.method == "POST":
-        item.product_name = request.POST.get('product_name', item.product_name)
-        item.product_description = request.POST.get('product_description', item.product_description)
-        item.product_price = request.POST.get('product_price', item.product_price)
-        item.product_offerprice = request.POST.get('product_offerprice', item.product_offerprice)
-        item.category = request.POST.get('category', item.category)
-        if 'image' in request.FILES:
-            item.image = request.FILES['image']
-        item.save()
-        return redirect('/view')
-    return render(request, "manage_product.html", {"save": item})
+    return redirect('/admin/')
 
 
 @login_required(login_url='/log')
